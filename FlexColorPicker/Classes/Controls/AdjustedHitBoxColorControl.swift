@@ -28,7 +28,7 @@
 
 import UIKit
 
-let defaultHitBoxInset: CGFloat = 16
+private let defaultHitBoxInset: CGFloat = 16
 public let colorControlWithThumbViewDefaultHitBoxInsets = UIEdgeInsets(top: defaultHitBoxInset, left: defaultHitBoxInset, bottom: defaultHitBoxInset, right: defaultHitBoxInset)
 
 /// Color control with frame (and hit box) extended beyond its alignment rectangle.

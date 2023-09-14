@@ -35,7 +35,7 @@ extension CGPoint {
         return sqrt(dx * dx + dy * dy)
     }
 
-    func distance(to point: CGPoint) -> CGFloat {
-        return distanceTo(x: point.x, y: point.y)
-    }
+//    func distance(to point: CGPoint) -> CGFloat {
+//        return distanceTo(x: point.x, y: point.y)
+//    }
 }

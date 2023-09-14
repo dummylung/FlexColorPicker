@@ -28,8 +28,8 @@
 
 import UIKit
 
-private let colorPickerThumbViewDiameter: CGFloat = 28
-private let defaultWideBorderWidth: CGFloat = 6
+private let colorPickerThumbViewDiameter: CGFloat = 36 - defaultWideBorderWidth * 2
+private let defaultWideBorderWidth: CGFloat = 2
 private let defaultExpandedUpscaleRatio: CGFloat = 1.6
 private let expansionAnimationDuration = 0.3
 private let collapsingAnimationDelay = 0.1
@@ -150,7 +150,8 @@ extension ColorPickerThumbView {
     }
 
     open var colorIdicatorRadius: CGFloat {
-        return bounds.width / 2 - wideBorderWidth
+//        return bounds.width / 2 - wideBorderWidth
+        return bounds.width / 2 + wideBorderWidth
     }
 
     private func setWideBorderColors(_ isDark: Bool) {

@@ -34,6 +34,7 @@ private let paletteVerticalMargin: CGFloat = 42
 private let paletteHorizontalMargin: CGFloat = 32
 private let minDistanceFromSafeArea: CGFloat = 10
 private let minSpaceAboveSlider: CGFloat = 50
+private let defaultHitBoxInset: CGFloat = 0
 
 /// Color picker view controller with predefined layout and limited customisation options. It is designed to be easy to use. You can customize it from interface builder (e.g. you can choose radial or rectangular palette) or from code by setting its properties or directly setting properties of its `colorPalette`, `colorPreview` & `brightnessSlider`. If you need more customisation please use `CustomColorPickerViewController`.
 ///

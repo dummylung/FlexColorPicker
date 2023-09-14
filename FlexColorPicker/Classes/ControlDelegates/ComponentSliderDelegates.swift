@@ -35,20 +35,33 @@ public struct SaturationSliderDelegate: ColorSliderDelegate {
         return color.withSaturation(value)
     }
 
-    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, gradientStart: UIColor, gradientEnd: UIColor) {
-        return (color.saturation, color.withSaturation(0).toUIColor(), color.withSaturation(1).toUIColor())
+    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, thumbColor: UIColor, gradientStart: UIColor, gradientEnd: UIColor) {
+        return (color.saturation, color.toUIColor(), color.withSaturation(0).toUIColor(), color.withSaturation(1).toUIColor())
     }
+    
+    public func shouldUpdate(oldValue: CGFloat, newValue: CGFloat) -> Bool {
+        return true
+    }
+    
 }
 
 public struct BrightnessSliderDelegate: ColorSliderDelegate {
     public init() {}
 
     public func modifiedColor(from color: HSBColor, with value: CGFloat) -> HSBColor {
-        return color.withBrightness(1 - value)
+//        return color.withBrightness(1 - value)
+        return color.withBrightness(value)
     }
 
-    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, gradientStart: UIColor, gradientEnd: UIColor) {
-        return (1 - color.brightness, color.withBrightness(1).toUIColor(), color.withBrightness(0).toUIColor())
+    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, thumbColor: UIColor, gradientStart: UIColor, gradientEnd: UIColor) {
+//        return (1 - color.brightness, color.withBrightness(1).toUIColor(), color.withBrightness(0).toUIColor())
+//        return (color.brightness, color.withBrightness(0).toUIColor(), color.withBrightness(1).toUIColor())
+        let brightness = color.brightness
+        return (brightness, UIColor(hue: 0, saturation: 0, brightness: brightness, alpha: 1.0), .black, .white)
+    }
+    
+    public func shouldUpdate(oldValue: CGFloat, newValue: CGFloat) -> Bool {
+        return true
     }
 }
 
@@ -59,8 +72,12 @@ public struct RedSliderDelegate: ColorSliderDelegate {
         return color.withRed(value)
     }
 
-    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, gradientStart: UIColor, gradientEnd: UIColor) {
-        return (color.rgb.red, color.withRed(0).toUIColor(), color.withRed(1).toUIColor())
+    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, thumbColor: UIColor, gradientStart: UIColor, gradientEnd: UIColor) {
+        return (color.rgb.red, color.toUIColor(), color.withRed(0).toUIColor(), color.withRed(1).toUIColor())
+    }
+    
+    public func shouldUpdate(oldValue: CGFloat, newValue: CGFloat) -> Bool {
+        return true
     }
 }
 
@@ -71,8 +88,12 @@ public struct GreenSliderDelegate: ColorSliderDelegate {
         return color.withGreen(value)
     }
 
-    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, gradientStart: UIColor, gradientEnd: UIColor) {
-        return (color.rgb.green, color.withGreen(0).toUIColor(), color.withGreen(1).toUIColor())
+    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, thumbColor: UIColor, gradientStart: UIColor, gradientEnd: UIColor) {
+        return (color.rgb.green, color.toUIColor(), color.withGreen(0).toUIColor(), color.withGreen(1).toUIColor())
+    }
+    
+    public func shouldUpdate(oldValue: CGFloat, newValue: CGFloat) -> Bool {
+        return true
     }
 }
 
@@ -83,7 +104,11 @@ public struct BlueSliderDelegate: ColorSliderDelegate {
         return color.withBlue(value)
     }
 
-    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, gradientStart: UIColor, gradientEnd: UIColor) {
-        return (color.rgb.blue, color.withBlue(0).toUIColor(), color.withBlue(1).toUIColor())
+    public func valueAndGradient(for color: HSBColor) -> (value: CGFloat, thumbColor: UIColor, gradientStart: UIColor, gradientEnd: UIColor) {
+        return (color.rgb.blue, color.toUIColor(), color.withBlue(0).toUIColor(), color.withBlue(1).toUIColor())
+    }
+    
+    public func shouldUpdate(oldValue: CGFloat, newValue: CGFloat) -> Bool {
+        return true
     }
 }
