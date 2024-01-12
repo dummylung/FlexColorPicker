@@ -138,7 +138,9 @@ open class ColorPaletteControl: ColorControlWithThumbView {
     }
 
     private func updateThumbPosition(position: CGPoint) {
-        thumbView.frame = CGRect(center: imageCoordinates(point: position, toCoordinateSpace: contentView), size: thumbView.intrinsicContentSize)
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) {
+            self.thumbView.frame = CGRect(center: self.imageCoordinates(point: position, toCoordinateSpace: self.contentView), size: self.thumbView.intrinsicContentSize)
+        }
     }
 
     private func updateContentMode() {

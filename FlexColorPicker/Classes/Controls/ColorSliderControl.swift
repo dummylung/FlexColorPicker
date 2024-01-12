@@ -122,7 +122,9 @@ open class ColorSliderControl: ColorControlWithThumbView {
         if !sliderDelegate.shouldUpdate(oldValue: CGFloat(thumbView.percentage) / 100.0, newValue: value) {
             return
         }
-        thumbView.frame = CGRect(center: CGPoint(x: thumbView.colorIdicatorRadius + gradientLength * min(max(0, value), 1), y: contentView.bounds.midY), size: thumbView.intrinsicContentSize)
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) {
+            self.thumbView.frame = CGRect(center: CGPoint(x: self.thumbView.colorIdicatorRadius + gradientLength * min(max(0, value), 1), y: self.contentView.bounds.midY), size: self.thumbView.intrinsicContentSize)
+        }
         thumbView.setColor(thumbColor, animateBorderColor: interactive)
         gradientView.startOffset = thumbView.colorIdicatorRadius
         gradientView.endOffset = thumbView.colorIdicatorRadius
