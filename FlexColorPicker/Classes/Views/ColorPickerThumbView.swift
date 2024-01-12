@@ -28,7 +28,7 @@
 
 import UIKit
 
-private let defaultColorPickerThumbViewDiameter: CGFloat = 52 - defaultWideBorderWidth * 2
+private let defaultColorPickerThumbViewDiameter: CGFloat = 36 - defaultWideBorderWidth * 2
 private let defaultWideBorderWidth: CGFloat = 1.0
 private let defaultExpandedUpscaleRatio: CGFloat = 1.6
 private let expansionAnimationDuration = 0.3
@@ -92,8 +92,10 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
         return CGSize(width: colorPickerThumbViewDiameter, height: colorPickerThumbViewDiameter)
     }
 
-    var wideBorderWidth: CGFloat {
-        return defaultWideBorderWidth
+    var wideBorderWidth: CGFloat = defaultWideBorderWidth {
+        didSet {
+            
+        }
     }
 
     open override func commonInit() {
