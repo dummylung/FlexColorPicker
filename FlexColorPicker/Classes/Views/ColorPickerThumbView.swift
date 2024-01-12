@@ -28,12 +28,13 @@
 
 import UIKit
 
-private let colorPickerThumbViewDiameter: CGFloat = 36 - defaultWideBorderWidth * 2
-private let defaultWideBorderWidth: CGFloat = 2
+private let defaultColorPickerThumbViewDiameter: CGFloat = 52 - defaultWideBorderWidth * 2
+private let defaultWideBorderWidth: CGFloat = 1.0
 private let defaultExpandedUpscaleRatio: CGFloat = 1.6
 private let expansionAnimationDuration = 0.3
 private let collapsingAnimationDelay = 0.1
 private let borderDarkeningAnimationDuration = 0.3
+private let borderColor = UIColor.white
 private let expansionAnimationSpringDamping: CGFloat = 0.7
 private let brightnessToChangeToDark: CGFloat = 0.3
 private let saturationToChangeToDark: CGFloat = 0.4
@@ -62,6 +63,11 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
         }
     }
 
+    var colorPickerThumbViewDiameter: CGFloat = defaultColorPickerThumbViewDiameter {
+        didSet {
+            
+        }
+    }
     var expandedUpscaleRatio: CGFloat = defaultExpandedUpscaleRatio {
         didSet {
             if isExpanded {
@@ -92,7 +98,7 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
 
     open override func commonInit() {
         super.commonInit()
-        addAutolayoutFillingSubview(borderView)
+//        addAutolayoutFillingSubview(borderView) // use border of colorView instead
         addAutolayoutFillingSubview(colorView, edgeInsets: UIEdgeInsets(top: wideBorderWidth, left: wideBorderWidth, bottom: wideBorderWidth, right: wideBorderWidth))
         addAutolayoutCentredView(percentageLabel)
         borderView.viewBorderColor = UIColor.colorPickerBorderColor
@@ -106,6 +112,13 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
         (borderView as? LimitedGestureCircleView)?.delegate = delegate
         (colorView as? LimitedGestureCircleView)?.delegate = delegate
         setColor(color, animateBorderColor: false)
+        
+        colorView.borderWidth = wideBorderWidth
+        colorView.viewBorderColor = borderColor
+        colorView.layer.shadowColor = UIColor.black.cgColor
+        colorView.layer.shadowOpacity = 0.2
+        colorView.layer.shadowOffset = .zero
+        colorView.layer.shadowRadius = 15
     }
 
     open func setColor(_ color: UIColor, animateBorderColor: Bool) {
@@ -121,21 +134,24 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
 
 extension ColorPickerThumbView {
     
-    open func setExpanded(_ expanded: Bool, animated: Bool) {
-        let transform = expanded && expandOnTap ? CATransform3DMakeScale(expandedUpscaleRatio, expandedUpscaleRatio, 1) : CATransform3DIdentity
+    public func setExpanded(_ expanded: Bool, animated: Bool) {
+        let scale = expanded && expandOnTap ? expandedUpscaleRatio : 1.0
+        let colorViewTransform = CGAffineTransform(scaleX: scale, y: scale)
+        let borderViewTransform = CGAffineTransform(scaleX: scale, y: scale)
         let textLabelRaiseAmount: CGFloat = expanded && expandOnTap ? (bounds.height / 2) * defaultExpandedUpscaleRatio + textLabelUpShift : (bounds.height / 2)  + textLabelUpShift
         let labelTransform = CATransform3DMakeTranslation(0, -textLabelRaiseAmount, 0)
         isExpanded = expanded
-
+        
         UIView.animate(withDuration: animated ? expansionAnimationDuration : 0, delay: expanded ? 0 : collapsingAnimationDelay, usingSpringWithDamping: expansionAnimationSpringDamping, initialSpringVelocity: 0, options: [], animations: {
-            self.borderView.layer.transform = transform
-            self.colorView.layer.transform = transform
+            self.borderView.transform = borderViewTransform
+            self.colorView.transform = colorViewTransform
+            self.colorView.borderWidth = self.wideBorderWidth / scale
             self.percentageLabel.layer.transform = labelTransform
             self.percentageLabel.alpha = expanded && self.showPercentage ? 1 : 0
         }, completion: nil)
     }
 
-    open func setDarkBorderIfNeeded(animated: Bool = true) {
+    public func setDarkBorderIfNeeded(animated: Bool = true) {
         let (_, s, b) = color.hsbColor.asTupleNoAlpha()
         let isBorderDark = autoDarken && 1 - b < brightnessToChangeToDark && s < saturationToChangeToDark
 //        let isBorderDark = autoDarken && color.constrastRatio(with: .white) < maxContrastRatioWithWhiteToDarken
@@ -149,7 +165,7 @@ extension ColorPickerThumbView {
         #endif
     }
 
-    open var colorIdicatorRadius: CGFloat {
+    public var colorIdicatorRadius: CGFloat {
 //        return bounds.width / 2 - wideBorderWidth
         return bounds.width / 2 + wideBorderWidth
     }
